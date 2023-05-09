@@ -3,7 +3,7 @@ def solution(array, commands):
 
     for i in range(len(commands)):
         command = commands[i]
-        i = command[0]
+        # i = command[0]
         newArr = array[command[0]-1:command[1]]
         newArr.sort()
         answer.append(newArr[command[2]-1])
