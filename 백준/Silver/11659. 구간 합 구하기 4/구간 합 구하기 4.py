@@ -1,15 +1,17 @@
 import sys
+input = sys.stdin.readline
 
-number, count = map(int, sys.stdin.readline().split())
-numList = list(map(int, sys.stdin.readline().split()))
+number_cnt, sum_cnt = map(int, input().split())
 
-sumsList = [0]
-sums = 0
+numbers = list(map(int, input().split()))
 
-for i in numList:
-    sums += i
-    sumsList.append(sums)
+sum_list = [0]
+temp = 0
 
-for _ in range(count):
-    start, end = map(int, sys.stdin.readline().split())
-    print(sumsList[end] - sumsList[start - 1])
+for i in numbers:
+    temp += i
+    sum_list.append(temp)
+
+for _ in range(sum_cnt):
+    start, end = map(int, input().split())
+    print(sum_list[end] - sum_list[start-1])
