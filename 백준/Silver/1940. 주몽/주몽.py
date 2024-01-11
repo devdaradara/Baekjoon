@@ -1,26 +1,24 @@
 import sys
 input = sys.stdin.readline
 
-number = int(input())
-goal = int(input())
-material = list(map(int, input().split()))
+material = int(input())
+armor = int(input())
+nums = list(map(int, input().split()))
 
-material.sort()
-start = 0
-end = len(material) - 1
-count = 0
+cnt = 0
 
-while end > start:
-    sum = material[start] + material[end]
-    if sum < goal:
-        start += 1
+nums.sort()
+first = 0
+last = len(nums)-1
 
-    elif sum > goal:
-        end -= 1
+while first < last:
+    sumNum = nums[first] + nums[last]
+    if sumNum > armor: last -= 1
+    if sumNum < armor: first += 1
+    if sumNum == armor:
+        cnt += 1
+        last -= 1
+        first += 1
 
-    else:
-        count += 1
-        end -= 1
-        start += 1
 
-print(count)
+print(cnt)
