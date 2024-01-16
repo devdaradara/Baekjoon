@@ -1,32 +1,35 @@
 from collections import deque
 import sys
+input = sys.stdin.readline
 
-n, m, k, s = list(map(int, sys.stdin.readline().split()))
+n, m, k, x = map(int, input().split())
 
-graph = {}
+cityMap = [[] for _ in range(n+1)]
+visited = [-1] * (n+1)
+
+for _ in range(m):
+    start, end = map(int, input().split())
+    cityMap[start].append(end)
+
+def bfs(n):
+    que = deque()
+    que.append(n)
+    visited[n] += 1
+
+    while que:
+        now = que.popleft()
+        for new in cityMap[now]:
+            if visited[new] == -1:
+                que.append(new)
+                visited[new] = visited[now] + 1
+
+bfs(x)
+
+have = False
+
 for i in range(n+1):
-    graph[i] = []
-for i in range(m):
-    a, b = list(map(int, sys.stdin.readline().split()))
-    graph[a].append(b)
-
-dist_list = [0 for _ in range(n + 1)]
-visited = [0 for _ in range(n+1)]
-queue = deque([s])
-visited[s] = 1
-
-while (queue):
-    now = queue.popleft()
-    for j in graph[now]:
-        if visited[j] == 0:
-            queue.append(j)
-            visited[j] = 1
-            dist_list[j] = dist_list[now] + 1
-check = 0
-for i in range(1, n+1):
-    if dist_list[i] == k:
+    if visited[i] == k:
         print(i)
-        check += 1
-if check == 0:
-    print(-1)
+        have = True
 
+if not have: print(-1)
