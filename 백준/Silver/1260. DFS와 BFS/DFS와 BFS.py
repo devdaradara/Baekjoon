@@ -2,10 +2,11 @@ import sys
 input = sys.stdin.readline
 from collections import deque
 
-node, edge, start = map(int, input().split())
-graph = [[] for _ in range(node+1)]
+n, m, v = map(int, input().split())
+graph = [[] for _ in range(n+1)]
+visited = [False] * (n+1)
 
-for _ in range(edge):
+for _ in range(m):
     a, b = map(int, input().split())
     graph[a].append(b)
     graph[b].append(a)
@@ -14,35 +15,32 @@ for i in graph:
     i.sort()
 
 stack = []
-visitDfs = [False] * (node+1)
 
-def dfs(n):
-    if not visitDfs[n]:
-        stack.append(n)
-        visitDfs[n] = True
-        while stack:
-            n = stack.pop()
-            print(n, end=" ")
-            for j in graph[n]:
-                dfs(j)
 
-dfs(start)
+def dfs(node):
+    visited[node] = True
+    print(node, end=" ")
+    for i in graph[node]:
+        if not visited[i]:
+            dfs(i)
 
-visitBfs = [False] * (node+1)
+
+def bfs(node):
+    que = deque()
+    que.append(node)
+    visited[node] = True
+    while que:
+        now = que.popleft()
+        print(now, end=" ")
+        for new in graph[now]:
+            if not visited[new]:
+                que.append(new)
+                visited[new] = True
+
+
+
+
+dfs(v)
 print()
-
-que = deque()
-def bfs(n):
-    if not visitBfs[n]:
-        que.append(n)
-        visitBfs[n] = True
-        while que:
-            new = que.popleft()
-            print(new, end=" ")
-            for i in graph[new]:
-                if not visitBfs[i]:
-                    visitBfs[i] = True
-                    que.append(i)
-
-
-bfs(start)
+visited = [False] * (n+1)
+bfs(v)
