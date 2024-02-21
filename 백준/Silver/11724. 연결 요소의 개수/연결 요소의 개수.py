@@ -1,31 +1,33 @@
 import sys
 input = sys.stdin.readline
+from collections import deque
 
-node, edge = map(int, input().split())
-graph = [[] for _ in range(node+1)]
-visited = [False] * (node + 1)
+n, m = map(int, input().split())
+graph = [[] for _ in range(n+1)]
+visited = [False] * (n+1)
 
-for i in range(edge):
-    u, v = map(int, input().split())
-    graph[u].append(v)
-    graph[v].append(u)
 
-stack = []
+def bfs(node):
+    que = deque()
+    que.append(node)
+    visited[node] = True
+    while que:
+        now = que.popleft()
+        for new in graph[now]:
+            if not visited[new]:
+                que.append(new)
+                visited[new] = True
 
-def dfs(new):
-    while stack:
-        n = stack.pop()
-        if not visited[n]:
-            for i in graph[n]:
-                stack.append(i)
-            visited[n] = True
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
 
 cnt = 0
-
-for test in range(1, node+1):
-    if not visited[test]:
-        stack.append(test)
-        dfs(test)
+for i in range(1, n+1):
+    if not visited[i]:
         cnt += 1
+        bfs(i)
 
 print(cnt)
