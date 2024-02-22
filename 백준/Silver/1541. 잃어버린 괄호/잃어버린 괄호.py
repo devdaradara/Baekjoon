@@ -1,49 +1,33 @@
 import sys
 input = sys.stdin.readline
 
-mathEx = input().rstrip()
+exp = input().rstrip()
 
-nums = []
-exp = []
+answer = 0
 
-tmp = ""
-for i in mathEx:
-    if i == "+":
-        nums.append(int(tmp))
-        tmp = ""
-        exp.append("+")
-    elif i == "-":
-        nums.append(int(tmp))
-        tmp = ""
-        exp.append("-")
-    else:
-        tmp += i
-nums.append(int(tmp))
+num = ""
+tmp = 0
+minus = False
 
-total = nums[0]
-minusSum = 0
-haveMinus = False
-
-for i in range(len(exp)):
-    if exp[i] == "-":
-        if haveMinus:
-            total -= minusSum
-            minusSum = 0
-            haveMinus = False
+for e in exp:
+    if e == "+":
+        tmp += int(num)
+        num = ""
+    elif e == "-":
+        tmp += int(num)
+        if minus:
+            answer -= tmp
         else:
-            haveMinus = True
-        if minusSum == 0:
-            haveMinus = True
-
-    if haveMinus:
-        minusSum += nums[i+1]
+            answer += tmp
+        num = ""
+        tmp = 0
+        minus = True
     else:
-        if exp[i] == "-":
-            total -= nums[i+1]
-        else:
-            total += nums[i+1]
+        num += e
 
-if minusSum > 0:
-    total -= minusSum
-
-print(total)
+tmp += int(num)
+if minus:
+    answer -= tmp
+else:
+    answer += tmp
+print(answer)
