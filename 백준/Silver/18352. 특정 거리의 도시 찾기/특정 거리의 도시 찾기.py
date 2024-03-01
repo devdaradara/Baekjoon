@@ -1,35 +1,40 @@
-from collections import deque
 import sys
 input = sys.stdin.readline
+from collections import deque
 
 n, m, k, x = map(int, input().split())
 
-cityMap = [[] for _ in range(n+1)]
-visited = [-1] * (n+1)
+graph = [[] for _ in range(n + 1)]
+visited = [False] * (n+1)
 
 for _ in range(m):
-    start, end = map(int, input().split())
-    cityMap[start].append(end)
+    a, b = map(int, input().split())
+    graph[a].append(b)
 
-def bfs(n):
+
+
+def bfs(start):
     que = deque()
-    que.append(n)
-    visited[n] += 1
+    que.append((start, 0))
+    visited[start] = True
+    answer = []
 
     while que:
-        now = que.popleft()
-        for new in cityMap[now]:
-            if visited[new] == -1:
-                que.append(new)
-                visited[new] = visited[now] + 1
+        now, dist = que.popleft()
+        if dist == k:
+            answer.append(now)
+            continue
+        for i in graph[now]:
+            if not visited[i]:
+                que.append((i, dist + 1))
+                visited[i] = True
+    return answer
 
-bfs(x)
 
-have = False
-
-for i in range(n+1):
-    if visited[i] == k:
-        print(i)
-        have = True
-
-if not have: print(-1)
+answer = bfs(x)
+answer.sort()
+if answer:
+    for a in answer:
+        print(a)
+else:
+    print(-1)
