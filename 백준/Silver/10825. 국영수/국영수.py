@@ -1,17 +1,10 @@
 import sys
-from operator import itemgetter
-n = int(sys.stdin.readline())
-human = []
+input = sys.stdin.readline
 
-for _ in range(n):
-    st = sys.stdin.readline().split()
-    name = st[0]
-    kor = int(st[1])
-    eng = int(st[2])
-    math = int(st[3])
-    human.append((name, kor, eng, math))
+n = int(input())
+students = [list(input().split()) for _ in range(n)]
 
-human.sort(key = lambda x: (-x[1], x[2], -x[3], x[0]))
+students.sort(key=lambda x: (-int(x[1]), int(x[2]), -int(x[3]), x[0]))
 
-for i in range(n):
-    print(human[i][0])
+for s in students:
+    print(s[0])
